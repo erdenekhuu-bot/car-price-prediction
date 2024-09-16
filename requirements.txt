@@ -1,0 +1,5 @@
+Django==3.2.25
+mysql-connector-python==9.0.0
+mysqlclient==2.2.4
+scikit-learn==1.5.1
+pandas==2.2.2

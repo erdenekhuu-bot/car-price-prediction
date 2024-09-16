@@ -1,0 +1,37 @@
+{% extends "main.html" %} {% load static %} {% block content %}
+<section
+  class="h-[600px] bg-[url('/static/images/engine.jpg')] flex justify-center items-center z-0 relative bg-cover"
+>
+  <div class="absolute inset-0 bg-white opacity-70"></div>
+  <div class="flex justify-center items-center z-2">
+    <div class="text-center">
+      <div>
+        <b style="font-family: 'Inter'" class="text-[40px]">Авто машины</b>
+      </div>
+      <div>
+        <b style="font-family: 'Inter'" class="text-[40px]">боломжит үнийг</b>
+      </div>
+      <div class="">
+        <b
+          class="text-[60px]"
+          style="
+            background: linear-gradient(to bottom right, green, #dce31a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          "
+        >
+          CHECKLY
+        </b>
+      </div>
+      <div class="">
+        <span>Бид таны машины ханшийг мэдэхэд туслах болно</span>
+      </div>
+      <div class="my-4">
+        <button class="w-[140px] h-[60px] bg-[green] rounded-lg bg-[#33a652]">
+          <b class="text-[white]">🖍 Үнэлэх</b>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,113 @@
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+/>
+<script
+  src="https://code.jquery.com/jquery-3.7.1.js"
+  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+  crossorigin="anonymous"
+></script>
+<div class="my-8 text-center">
+  <b class="text-[#1f9e1b] text-[40px]" style="font-family: 'Inter'">checkly</b>
+</div>
+<main class="flex justify-center">
+  <form class="w-[75%] h-[75%]" method="post" action="/predict/">
+    {% csrf_token %}
+    <div class="p-4">
+      <b class="text-[24px]"
+        >Та машиныхаа шаардлагатай мэдээллийг оруулна уу.</b
+      >
+    </div>
+    <div class="h-[60px]"></div>
+    <div class="flex">
+      <b>Та өөрийн машины үйлдвэрлэгчийг оруулна уу.</b>
+      <div class="px-2 text-[red]"><b>*</b></div>
+    </div>
+    <script>
+      $(document).ready(function () {
+        $(".manufacturer").change(function () {
+          var argument = $(this).val();
+          $(".manufacturer-mark").prop("disabled", false);
+          $.ajax({
+            method: "GET",
+            url: "{% url 'search' %}",
+            data: {
+              manufacturer: argument,
+            },
+            success: function (response) {
+              let list = [];
+              console.log(response.marks);
+              for (let i = 0; i < response.marks.length; i++)
+                list.push(response.marks[i]);
+              $.each(list, function (index, mark) {
+                $(".manufacturer-mark").append(
+                  $("<option>", {
+                    value: mark,
+                    text: mark,
+                  })
+                );
+              });
+            },
+          });
+
+          $(".manufacturer-mark").change(function () {
+            $(".avaliable-all").prop("disabled", false);
+          });
+        });
+      });
+    </script>
+    <div class="input-group mb-3 flex">{{ form.Uildverlegch }}</div>
+
+    <div class="flex">
+      <b>Та өөрийн машины маркийг оруулна уу.</b>
+      <div class="px-2 text-[red]"><b>*</b></div>
+    </div>
+    <div class="input-group mb-3">{{ form.Mark }}</div>
+
+    <div class="flex">
+      <b>Та өөрийн машины моторын багтаамжийг оруулна уу. (л)</b>
+      <div class="px-2 text-[red]"><b>*</b></div>
+    </div>
+    <div class="input-group mb-3">{{ form.Motor_bagtaamj }}</div>
+
+    <div class="flex">
+      <b>Та өөрийн машины хропыг сонгоно уу.</b>
+      <div class="px-2 text-[red]"><b>*</b></div>
+    </div>
+    <div class="input-group mb-3">{{ form.Xrop }}</div>
+
+    <div class="flex">
+      <b>Та өөрийн машины төрөлийг сонгоно уу.</b>
+      <div class="px-2 text-[red]"><b>*</b></div>
+    </div>
+    <div class="input-group mb-3">{{ form.Torol }}</div>
+
+    <div class="flex">
+      <b>Таны машин хэзээ үйлдвэрлэгдэн гарсан бэ?</b>
+      <div class="px-2 text-[red]"><b>*</b></div>
+    </div>
+    <div class="input-group mb-3">{{ form.Uildverlesen_on }}</div>
+
+    <div class="flex">
+      <b>Хөдөлгүүрийн төрөл</b>
+      <div class="px-2 text-[red]"><b>*</b></div>
+    </div>
+    <div class="input-group mb-3">{{ form.Hudulguur }}</div>
+
+    <div class="flex">
+      <b>Машины хөтлөгч</b>
+      <div class="px-2 text-[red]"><b>*</b></div>
+    </div>
+    <div class="input-group mb-3">{{ form.Hutlugch }}</div>
+
+    <div class="flex">
+      <b> Таны машин нийт хэдэн километр явсан бэ? (км)</b>
+      <div class="px-2 text-[red]"><b>*</b></div>
+    </div>
+    <div class="input-group mb-3">{{ form.Yavsan_km }}</div>
+
+    <button type="submit" class="btn btn-primary">Тооцоолох</button>
+  </form>
+</main>

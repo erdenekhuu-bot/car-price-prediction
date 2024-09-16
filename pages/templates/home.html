@@ -1,0 +1,146 @@
+{% extends "main.html" %} 
+{% load static %}
+{% block content %}
+<section
+      class="z-0 relative bg-cover h-[800px] bg-[url('/static/images/wallpaper-1.jpg')] flex justify-center items-center"
+    >
+      <div class="absolute inset-0 bg-white opacity-70"></div>
+      <div class="flex justify-center items-center z-2">
+        <div class="text-center">
+          <div>
+            <b style="font-family: 'Inter'" class="text-[40px]">Авто машины</b>
+          </div>
+          <div>
+            <b style="font-family: 'Inter'" class="text-[40px]"
+              >боломжит үнийг</b
+            >
+          </div>
+          <div class="">
+            <b
+              class="text-[60px]"
+              style="
+                background: linear-gradient(to bottom right, green, #dce31a);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+              "
+            >
+              CHECKLY
+            </b>
+          </div>
+          <div class="">
+            <span>Бид таны машины ханшийг мэдэхэд туслах болно</span>
+          </div>
+          <div class="my-4">
+             <a href="{% url 'test' %}">
+             <button
+                class="w-[140px] h-[60px] bg-[green] rounded-lg bg-[#33a652]"
+              >
+                <b class="text-[white]">🖍 Үнэлэх</b>
+              </button>
+             </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="">
+      <div class="flex justify-center my-8">
+        <span class="text-[12px] text-[#3b3a39]">CHECKLY</span>
+      </div>
+      <div class="flex justify-center my-8">
+        <b class="text-[48px]">Үйлчилгээ</b>
+      </div>
+    </section>
+
+    <section class="flex justify-center h-[550px]">
+      <div
+        class="w-[20%] h-[450px] text-center mx-4 rounded-xl px-2 shadow-2xl"
+      >
+        <div class="flex justify-center">
+          <img
+            src="{% static 'images/car_7170025.png' %}"
+            alt=""
+            class="w-[50px] mt-24"
+          />
+        </div>
+        <div class="my-8">
+          <b class="text-[20px]">Хурдан шуурхай</b>
+        </div>
+        <div>Бид таны машиныг цаг алдалгүй түргэн шуурхай үнэлнэ.</div>
+      </div>
+      <div
+        class="w-[20%] h-[450px] text-center mx-4 rounded-xl px-4 shadow-2xl"
+      >
+        <div class="flex justify-center">
+          <img
+            src="{% static 'images/graph.png' %}"
+            alt=""
+            class="w-[50px] mt-24"
+          />
+        </div>
+        <div class="my-8">
+          <b class="text-[20px]">Нарийвчлал 90 хүртэлх</b>
+        </div>
+        <div>
+          Бид 10 параметрээс хамааруулсан 90-ийн нарийвчлалтай тооцдог алгоритм
+          ажлуулж байна.
+        </div>
+      </div>
+      <div
+        class="w-[20%] h-[450px] text-center mx-4 rounded-xl px-4 shadow-2xl"
+      >
+        <div class="flex justify-center">
+          <img
+            src="{% static 'images/google-docs.png' %}"
+            alt=""
+            class="w-[50px] mt-24"
+          />
+        </div>
+        <div class="my-8">
+          <b class="text-[20px]">Жинхэнэ өгөгдөл</b>
+        </div>
+        <div>
+          Бид хамтрагч байгууллагуудынхаа бодит дата дээр суурилан зах зээлийн
+          үнийг тооцож байна.
+        </div>
+      </div>
+    </section>
+
+    <section class="">
+      <div class="text-center text-[#3b3a39]">
+        <b>Үр дүн</b>
+      </div>
+      <div class="flex justify-center my-8">
+          <div class="w-[350px] text-center">
+            <b class="font-bold text-[40px]">Таны авто машины үнэлгээ</b>
+          </div>
+      <div>
+    </section>
+    <section>
+       <div class="flex justify-center my-12">
+        <b class="text-[50px]">123,456,789 ₮</b>
+      </div>
+    </section>
+    
+
+    <section>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2674.0207739680613!2d106.8891799444275!3d47.916635496503204!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5d96938c1a939bbd%3A0xccb9803a93beb5cf!2z0JrQvtC70L7RgNCw0LTQviDQkdC40LfQvdC10YEg0KLTqdCy!5e0!3m2!1smn!2smn!4v1725527641183!5m2!1smn!2smn"  class="w-full" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </section>
+
+    <section class="py-20 border">
+       <div class="flex justify-around">
+        <b class="text-[#14ba1b] text-[30px]" style="font-family: 'Inter'"
+          >checkly</b
+        >
+        <b class="text-[#14ba1b] text-[30px]" style="font-family: 'Inter'"
+          >checkly</b
+        >
+        <b class="text-[#14ba1b] text-[30px]" style="font-family: 'Inter'"
+          >checkly</b
+        >
+        <b class="text-[#14ba1b] text-[30px]" style="font-family: 'Inter'"
+          >checkly</b
+        >
+      </div>
+    </section>
+{% endblock %}
