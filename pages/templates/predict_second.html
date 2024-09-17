@@ -1,37 +1,102 @@
 {% extends "main.html" %} {% load static %} {% block content %}
 <section
-  class="h-[600px] bg-[url('/static/images/engine.jpg')] flex justify-center items-center z-0 relative bg-cover"
+  class="h-[1000px] bg-[url('/static/images/engine.jpg')] flex justify-center items-center z-0 relative bg-cover"
 >
   <div class="absolute inset-0 bg-white opacity-70"></div>
   <div class="flex justify-center items-center z-2">
-    <div class="text-center">
-      <div>
-        <b style="font-family: 'Inter'" class="text-[40px]">Авто машины</b>
-      </div>
-      <div>
-        <b style="font-family: 'Inter'" class="text-[40px]">боломжит үнийг</b>
-      </div>
-      <div class="">
-        <b
-          class="text-[60px]"
-          style="
-            background: linear-gradient(to bottom right, green, #dce31a);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-          "
+    <form class="w-[75%] h-[75%]" method="post" action="/predict/">
+      {% csrf_token %}
+      <div class="p-4">
+        <b class="text-[24px]"
+          >Та машиныхаа шаардлагатай мэдээллийг оруулна уу.</b
         >
-          CHECKLY
-        </b>
       </div>
-      <div class="">
-        <span>Бид таны машины ханшийг мэдэхэд туслах болно</span>
+      <div class="flex">
+        <b>Та өөрийн машины үйлдвэрлэгчийг оруулна уу.</b>
+        <div class="px-2 text-[red]"><b>*</b></div>
       </div>
-      <div class="my-4">
-        <button class="w-[140px] h-[60px] bg-[green] rounded-lg bg-[#33a652]">
-          <b class="text-[white]">🖍 Үнэлэх</b>
-        </button>
+      <script>
+        $(document).ready(function () {
+          $(".manufacturer").change(function () {
+            var argument = $(this).val();
+            $(".manufacturer-mark").prop("disabled", false);
+            $.ajax({
+              method: "GET",
+              url: "{% url 'search' %}",
+              data: {
+                manufacturer: argument,
+              },
+              success: function (response) {
+                console.log(response.marks);
+                $.each(response.marks, function (index, mark) {
+                  $(".manufacturer-mark").append(
+                    $("<option>", {
+                      value: mark,
+                      text: mark,
+                    })
+                  );
+                });
+              },
+            });
+
+            $(".manufacturer-mark").change(function () {
+              $(".avaliable-all").prop("disabled", false);
+            });
+          });
+        });
+      </script>
+      <div class="input-group mb-3 flex">{{ form.Uildverlegch }}</div>
+
+      <div class="flex">
+        <b>Та өөрийн машины маркийг оруулна уу.</b>
+        <div class="px-2 text-[red]"><b>*</b></div>
       </div>
-    </div>
+      <div class="input-group mb-3">{{ form.Mark }}</div>
+
+      <div class="flex">
+        <b>Та өөрийн машины моторын багтаамжийг оруулна уу. (л)</b>
+        <div class="px-2 text-[red]"><b>*</b></div>
+      </div>
+      <div class="input-group mb-3">{{ form.Motor_bagtaamj }}</div>
+
+      <div class="flex">
+        <b>Та өөрийн машины хропыг сонгоно уу.</b>
+        <div class="px-2 text-[red]"><b>*</b></div>
+      </div>
+      <div class="input-group mb-3">{{ form.Xrop }}</div>
+
+      <div class="flex">
+        <b>Та өөрийн машины төрөлийг сонгоно уу.</b>
+        <div class="px-2 text-[red]"><b>*</b></div>
+      </div>
+      <div class="input-group mb-3">{{ form.Torol }}</div>
+
+      <div class="flex">
+        <b>Таны машин хэзээ үйлдвэрлэгдэн гарсан бэ?</b>
+        <div class="px-2 text-[red]"><b>*</b></div>
+      </div>
+      <div class="input-group mb-3">{{ form.Uildverlesen_on }}</div>
+
+      <div class="flex">
+        <b>Хөдөлгүүрийн төрөл</b>
+        <div class="px-2 text-[red]"><b>*</b></div>
+      </div>
+      <div class="input-group mb-3">{{ form.Hudulguur }}</div>
+
+      <div class="flex">
+        <b>Машины хөтлөгч</b>
+        <div class="px-2 text-[red]"><b>*</b></div>
+      </div>
+      <div class="input-group mb-3">{{ form.Hutlugch }}</div>
+
+      <div class="flex">
+        <b> Таны машин нийт хэдэн километр явсан бэ? (км)</b>
+        <div class="px-2 text-[red]"><b>*</b></div>
+      </div>
+      <div class="input-group mb-3">{{ form.Yavsan_km }}</div>
+
+      <button type="submit" class="btn btn-primary">Тооцоолох</button>
+    </form>
   </div>
 </section>
 {% endblock %}

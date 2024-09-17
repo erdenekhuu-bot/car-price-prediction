@@ -21,18 +21,9 @@ def f1(arg):
 def f2(arg):
     return float(arg.replace(' л', '').replace(',', ''))
 
-db=mysql.connect(host='localhost',username='root',password='',database='checkly')
-object=db.cursor()
-object.execute('SELECT `Uildverlegch`, `Mark`, `Motor_bagtaamj`, `Xrop`, `Torol`, `Uildverlesen_on`, `Hudulguur`, `Hutlugch`, `Yavsan_km`, `Une` FROM `mashin_data`')
-fetch=object.fetchall()
-object.close()
-db.close()
-
-data=[list(row) for row in fetch]
-data=np.array(data)
-
-columns = ['Uildverlegch', 'Mark', 'Motor_bagtaamj', 'Xrop', 'Torol', 'Uildverlesen_on', 'Hudulguur', 'Hutlugch', 'Yavsan_km', 'Une']
-dataset = pd.DataFrame(data, columns=columns)
+queryset = MashinData.objects.all()
+data = list(queryset.values('Uildverlegch', 'Mark', 'Motor_bagtaamj', 'Xrop', 'Torol', 'Uildverlesen_on', 'Hudulguur', 'Hutlugch', 'Yavsan_km', 'Une'))
+dataset = pd.DataFrame(data)
 
 dataset['Motor_bagtaamj']=dataset['Motor_bagtaamj'].apply(f2)
 dataset['Yavsan_km']=dataset['Yavsan_km'].apply(f1)
@@ -45,7 +36,6 @@ y = dataset['Une']
 
 numerical_features = ['Motor_bagtaamj', 'Uildverlesen_on', 'Yavsan_km']
 categorical_features = ['Uildverlegch', 'Mark', 'Xrop', 'Torol', 'Hudulguur', 'Hutlugch']
-
 
 preprocessor = ColumnTransformer(
     transformers=[
@@ -67,20 +57,14 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 pipeline.fit(X_train, y_train)
 
 def home(request):
-     return render(request, 'home.html')
+    return render(request, 'home.html')
 
 def predict(request):
-     return render(request, 'predict_first.html')
+    return render(request, 'predict_first.html')
 
 def predict_second(request):
-     return render(request, 'predict_second.html')
-
-def result(request):
-     return render(request, 'result.html')
-
-def upload(request):
-     form = Checkly()
-     return render(request, 'estimate/upload.html', {'form': form})
+    form = Checkly()
+    return render(request, 'predict_second.html',{'form': form})
 
 def predict(request):
     if request.method == 'POST':
@@ -103,27 +87,12 @@ def predict(request):
         form = Checkly()
     return HttpResponse("0")
 
-
 @require_GET
 def searchMark(request):
     manufacturer = request.GET.get("manufacturer")
-        
-    if manufacturer is None:
-        return JsonResponse({"error": "Manufacturer parameter is missing"}, status=400)
-
     try:
-        db = mysql.connect(host='localhost', username='root', password='', database='checkly')
-        cursor = db.cursor()
-        query = 'SELECT DISTINCT Mark FROM mashin_data WHERE Uildverlegch = %s'
-        cursor.execute(query, (manufacturer,))
-        marks = cursor.fetchall()
-        cursor.close()
-        db.close()
-
-        mark_choices = [mark[0] for mark in marks]
+        marks_queryset = MashinData.objects.filter(Uildverlegch=manufacturer).values_list('Mark', flat=True).distinct()
+        mark_choices = list(marks_queryset)
         return JsonResponse({'marks': mark_choices})
-        
-    except mysql.Error as e:
-            return JsonResponse({"error": str(e)}, status=500)
-        
-    return JsonResponse({"error": "Invalid request method"}, status=405)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
