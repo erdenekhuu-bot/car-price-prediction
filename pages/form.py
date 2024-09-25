@@ -1,35 +1,25 @@
 from django import forms
 import mysql.connector as mysql
+from ml.models import MashinData
 import numpy as np
 import pandas as pd
 
 
-db=mysql.connect(host='localhost',username='root',password='',database='checkly')
-object=db.cursor()
-object.execute('SELECT `Uildverlegch`, `Mark`, `Motor_bagtaamj`, `Xrop`, `Torol`, `Uildverlesen_on`, `Hudulguur`, `Hutlugch`, `Yavsan_km`, `Une` FROM `mashin_data`')
-fetch=object.fetchall()
-object.close()
-db.close()
-
-
-data=[list(row) for row in fetch]
-data=np.array(data)
-
-columns = ['Uildverlegch', 'Mark', 'Motor_bagtaamj', 'Xrop', 'Torol', 'Uildverlesen_on', 'Hudulguur', 'Hutlugch', 'Yavsan_km', 'Une']
-dataset = pd.DataFrame(data, columns=columns)
+queryset = MashinData.objects.all()
+data = list(queryset.values('Uildverlegch', 'Mark', 'Motor_bagtaamj', 'Xrop', 'Uildverlesen_on', 'Hudulguur', 'Hutlugch', 'Yavsan_km', 'Une'))
+dataset = pd.DataFrame(data)
 
 class Checkly(forms.Form):
     choose_uildverlegch = []
     for manufacturer in np.unique(dataset['Uildverlegch']):
         choose_uildverlegch.append((manufacturer,manufacturer))
 
+    choose_mark=[]
+    for mark in np.unique(dataset['Mark']):
+        choose_mark.append((mark,mark))
     choose_xrop = []
     for xrop in np.unique(dataset['Xrop']):
         choose_xrop.append((xrop,xrop))
-    
-    choose_torol = []
-    for torol in np.unique(dataset['Torol']):
-        choose_torol.append((torol,torol))
 
     choose_hudulguur = []
     for hudulguur in np.unique(dataset['Hudulguur']):
@@ -45,39 +35,38 @@ class Checkly(forms.Form):
         required=True,
     )
     Mark = forms.ChoiceField(
-        choices=[],
-        widget=forms.Select(attrs={'class': 'form-select manufacturer-mark', 'aria-label': 'Машины марк', 'disabled':'disabled'}),
+        choices=choose_mark,
+        widget=forms.Select(attrs={'class': 'form-select manufacturer-mark', 'aria-label': 'Машины марк'}),
         required=True,
     )
     Motor_bagtaamj = forms.FloatField(
-        widget=forms.NumberInput(attrs={'class': 'form-control avaliable-all', 'placeholder': 'Моторын багтаамж', 'disabled':'disabled'}),
+        widget=forms.NumberInput(attrs={'class': 'form-control avaliable-all', 'placeholder': 'Моторын багтаамж'}),
         required=True,
     )
     Xrop = forms.ChoiceField(
         choices=choose_xrop, 
-        widget=forms.Select(attrs={'class': 'form-select avaliable-all', 'aria-label': 'Машины хроп', 'disabled':'disabled'}),
-        required=True,
-    )
-    Torol = forms.ChoiceField(
-        choices=choose_torol, 
-        widget=forms.Select(attrs={'class': 'form-select avaliable-all', 'aria-label': 'Машины төрөл', 'disabled':'disabled'}),
+        widget=forms.Select(attrs={'class': 'form-select', 'aria-label': 'Машины хроп'}),
         required=True,
     )
     Uildverlesen_on = forms.IntegerField(
-        widget=forms.NumberInput(attrs={'class': 'form-control avaliable-all', 'placeholder': 'Үйлдвэрлэсэн он', 'disabled':'disabled'}),
+        widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Үйлдвэрлэсэн он'}),
         required=True,
     )
     Hudulguur = forms.ChoiceField(
         choices=choose_hudulguur, 
-        widget=forms.Select(attrs={'class': 'form-select avaliable-all', 'aria-label': 'Хөдөлгүүрийн төрөл', 'disabled':'disabled'}),
+        widget=forms.Select(attrs={'class': 'form-select', 'aria-label': 'Хөдөлгүүрийн төрөл'}),
         required=True,
     )
     Hutlugch = forms.ChoiceField(
         choices=choose_hutlugch, 
-        widget=forms.Select(attrs={'class': 'form-select avaliable-all', 'aria-label': 'Машины хөтлөгч', 'disabled':'disabled'}),
+        widget=forms.Select(attrs={'class': 'form-select', 'aria-label': 'Машины хөтлөгч'}),
         required=True,
     )
     Yavsan_km = forms.IntegerField(
-        widget=forms.NumberInput(attrs={'class': 'form-control avaliable-all', 'placeholder': 'Машины нийт явсан километр', 'disabled':'disabled'}),
+        widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Машины нийт явсан километр'}),
         required=True,
     )
+    # Yavsan_km = forms.IntegerField(
+    #     widget=forms.NumberInput(attrs={'class': 'form-control avaliable-all', 'placeholder': 'Машины нийт явсан километр', 'disabled':'disabled'}),
+    #     required=True,
+    # )

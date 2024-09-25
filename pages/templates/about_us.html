@@ -1,0 +1,37 @@
+{% extends "main.html" %} {% load static %} {% block content %}
+<section
+  class="z-0 relative bg-cover h-[500px] bg-[url('/static/images/about_us.jpg')] flex items-end px-24 py-20"
+>
+  <div
+    class="z-0 absolute inset-0 bg-gradient-to-r from-black to-transparent bg-opacity-100"
+  ></div>
+  <div class="z-10">
+    <div class="text-white text-3xl">
+      <div class="my-2">
+        <b class="text-[#14ba1b] text-[48px]">Бидний</b>
+      </div>
+      <div class="my-2">
+        <b class="text-[48px]">тухай</b>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="h-[700px] flex">
+  <div class="w-[50%] flex justify-center p-20">
+    <img src="{% static 'images/rubic_ai.png' %}" alt="" class="h-full" />
+  </div>
+  <div class="w-[50%] p-24">
+    <div class="w-[70%]">
+      <b style="font-family: Inter" class="text-[48px] font-medium"
+        >CHECKLY гэж юу вэ?</b
+      >
+    </div>
+    <div class="w-[70%] my-4 text-opacity-50">
+      Checkly нь Рубик Эй Ай ХХК-ийн хэрэгжүүлж буй анхны төсөл бөгөөд хиймэл
+      оюун ухааны машин сургалтын загварыг ашиглан эд хөрөнгийн зах зээлийн
+      үнийн (ханшийн) хамгийн боломжит үр дүнг санал болгох платформ юм.
+    </div>
+  </div>
+</section>
+{% endblock %}

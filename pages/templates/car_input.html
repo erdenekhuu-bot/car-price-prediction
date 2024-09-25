@@ -1,0 +1,150 @@
+{% extends "main.html" %} {% load static %} {% block content %}
+<section
+  class="h-[1000px] bg-[url('/static/images/engine.jpg')] flex justify-center items-center z-0 relative bg-cover"
+>
+  <div class="absolute inset-0 bg-white opacity-70"></div>
+  <div class="flex justify-center items-center z-10">
+    <section class="h-[75%]">
+      {% csrf_token %}
+      <div class="p-4">
+        <b class="text-[24px]"
+          >Та машиныхаа шаардлагатай мэдээллийг оруулна уу.</b
+        >
+      </div>
+      <script>
+        $(document).ready(function () {
+          $(".manufacturer").change(function () {
+            var argument = $(this).val();
+            $(".manufacturer-mark").prop("disabled", false);
+            $.ajax({
+              method: "GET",
+              url: "{% url 'search' %}",
+              data: {
+                manufacturer: argument,
+              },
+              success: function (response) {
+                console.log(response.marks);
+              },
+            });
+          });
+          $("#FormId").click(function () {
+            var formData = {
+              Uildverlegch: $(".manufacturer").val(),
+              Mark: $(".manufacturer-mark").val(),
+              Motor_bagtaamj: $("input[name='Motor_bagtaamj']").val(),
+              Xrop: $("select[name='Xrop']").val(),
+              Uildverlesen_on: $("input[name='Uildverlesen_on']").val(),
+              Hudulguur: $("select[name='Hudulguur']").val(),
+              Hutlugch: $("select[name='Hutlugch']").val(),
+              Yavsan_km: $("input[name='Yavsan_km']").val(),
+              csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(),
+            };
+
+            $("#popup").dialog({
+              autoOpen: false,
+              modal: true,
+              width: 520,
+              height: 420,
+              resizable: false,
+              buttons: {
+                Ойлголоо: function () {
+                  $(this).dialog("close");
+                },
+              },
+            });
+
+            $.ajax({
+              type: "POST",
+              url: "{% url 'predict' %}",
+              data: formData,
+              success: function (response) {
+                //alert(response.predicted_price);
+                $(".result").text(response.predicted_price + " ₮");
+                $("#popup").dialog("open");
+              },
+            });
+          });
+        });
+      </script>
+
+      <section>
+        <div class="flex">
+          <b>Та өөрийн машины үйлдвэрлэгчийг оруулна уу.</b>
+          <div class="px-2 text-[red]"><b>*</b></div>
+        </div>
+        <div class="input-group mb-3 flex">{{ form.Uildverlegch }}</div>
+      </section>
+
+      <section>
+        <div class="flex">
+          <b>Та өөрийн машины маркийг оруулна уу.</b>
+          <div class="px-2 text-[red]"><b>*</b></div>
+        </div>
+        <div class="input-group mb-3">{{ form.Mark }}</div>
+      </section>
+
+      <section>
+        <div class="flex">
+          <b>Та өөрийн машины моторын багтаамжийг оруулна уу. (л)</b>
+          <div class="px-2 text-[red]"><b>*</b></div>
+        </div>
+        <div class="input-group mb-3">{{ form.Motor_bagtaamj }}</div>
+      </section>
+
+      <section>
+        <div class="flex">
+          <b>Та өөрийн машины хропыг сонгоно уу.</b>
+          <div class="px-2 text-[red]"><b>*</b></div>
+        </div>
+        <div class="input-group mb-3">{{ form.Xrop }}</div>
+      </section>
+
+      <section>
+        <div class="flex">
+          <b>Таны машин хэзээ үйлдвэрлэгдэн гарсан бэ?</b>
+          <div class="px-2 text-[red]"><b>*</b></div>
+        </div>
+        <div class="input-group mb-3">{{ form.Uildverlesen_on }}</div>
+      </section>
+
+      <section>
+        <div class="flex">
+          <b>Хөдөлгүүрийн төрөл</b>
+          <div class="px-2 text-[red]"><b>*</b></div>
+        </div>
+        <div class="input-group mb-3">{{ form.Hudulguur }}</div>
+      </section>
+
+      <section>
+        <div class="flex">
+          <b>Машины хөтлөгч</b>
+          <div class="px-2 text-[red]"><b>*</b></div>
+        </div>
+        <div class="input-group mb-3">{{ form.Hutlugch }}</div>
+      </section>
+
+      <section>
+        <div class="flex">
+          <b> Таны машин нийт хэдэн километр явсан бэ? (км)</b>
+          <div class="px-2 text-[red]"><b>*</b></div>
+        </div>
+        <div class="input-group mb-3">{{ form.Yavsan_km }}</div>
+      </section>
+
+      <button type="button" class="btn btn-primary" id="FormId">
+        Тооцоолох
+      </button>
+    </section>
+  </div>
+</section>
+
+<div id="popup" title="Үр дүн" class="none z-20 p-20">
+  <div class="my-2">
+    Таны оруулсан мэдээллийн дагуу. Машины боломжит үнэ бол
+  </div>
+  <div class="flex justify-evenly items-center p-1">
+    <img src="{% static 'images/hi.jpg' %}" alt="" class="w-52 h-52" />
+    <b class="text-4xl result"></b>
+  </div>
+</div>
+{% endblock %}

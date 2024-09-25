@@ -1,0 +1,85 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+/>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+  rel="stylesheet"
+/>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=PT+Mono&display=swap"
+  rel="stylesheet"
+/>
+{% load static %}
+<section class="flex justify-between p-10">
+  <div>
+    <a href="{% url 'home-page' %}">
+      <b class="text-[#14ba1b] text-[30px]" style="font-family: Inter"
+        >checkly</b
+      >
+    </a>
+  </div>
+  <div>
+    <span style="font-family: Inter" class="mx-2 text-[14px]"
+      >Бүртгэл байгаа юу?
+    </span>
+    <a href="{% url 'register' %}" class="hover:underline text-[#14ba1b]">
+      <b style="font-family: Inter" class="text-[14px]">Бүртгүүлэх</b>
+    </a>
+  </div>
+</section>
+<section class="h-full flex">
+  <div class="w-[50%] p-5">
+    <div>
+      <b style="font-family: Inter" class="text-[30px] font-medium"
+        >Hi, Welcome back</b
+      >
+    </div>
+    <div>
+      <img src="{% static 'images/illustration_login.png' %}" alt="" class="" />
+    </div>
+  </div>
+  <div class="w-[50%] p-5">
+    <form action="" method="post">
+      <div class="">
+        <b style="font-family: Inter" class="text-[20px]">Нэвтрэх</b>
+      </div>
+      <div class="my-2" style="font-family: Inter">Мэдээллээ оруулна уу</div>
+      <div class="input-group my-4 w-[70%]">
+        <input
+          style="font-family: Inter"
+          type="text"
+          class="form-control"
+          placeholder="Имэйл"
+          aria-label="Имэйл"
+          aria-describedby="basic-addon1"
+        />
+      </div>
+      <div class="input-group my-3 w-[70%]">
+        <input
+          style="font-family: Inter"
+          type="text"
+          class="form-control"
+          placeholder="Нууц үг"
+          aria-label="Нууц үг"
+          aria-describedby="basic-addon1"
+        />
+      </div>
+      <div class="my-4">
+        <button
+          type="button"
+          style="font-family: Inter"
+          class="btn btn-success bg-[#14ba1b] w-[70%]"
+        >
+          Нэвтрэх
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
